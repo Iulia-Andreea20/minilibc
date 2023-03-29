@@ -16,9 +16,8 @@ SRCS = syscall.c \
        errno.c \
        crt/__libc_start_main.c \
        process/sleep.c \
-       io/puts.c
-
-# DONE
+       io/puts.c \
+       process/nanosleep.c 
 
 OBJS = $(patsubst %.c,%.o,$(SRCS)) 
 

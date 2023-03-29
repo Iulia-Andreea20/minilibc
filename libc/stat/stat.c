@@ -1,26 +1,26 @@
 // SPDX-License-Identifier: BSD-3-Clause
-
+#include <internal/syscall.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <internal/arch/x86_64/syscall_list.h>
 #include <unistd.h>
+
 int stat(const char *restrict path, struct stat *restrict buf)
 {
-	/* TODO: Implement stat(). */
-	/* Check if file exists */
+	int ret; 
     struct stat dummy;
+
     if (syscall(__NR_stat, path, &dummy) == -1) {
         if (errno == ENOENT) {
-            errno = ENOTDIR; /* as per POSIX */
+            errno = ENOTDIR;
         }
         return -1;
     }
-
-    /* Call stat system call */
-    int ret = syscall(__NR_stat, path, buf);
-    if (ret == -1) {
-        errno = -ret;
+    
+	ret = syscall(__NR_stat, path, buf);
+    if (ret < 0) 
+	{
+    	errno = -ret;
         return -1;
     }
 

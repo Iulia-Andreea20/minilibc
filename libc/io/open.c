@@ -8,11 +8,12 @@
 
 int open(const char *filename, int flags, ...)
 {
-	/* DONE */
 	int e = syscall(__NR_open, filename, flags);
-	if(e < 0) {
+	if(e < 0) 
+	{
 		errno = -e;
 		return -1;
 	}
+	
 	return e;
 }

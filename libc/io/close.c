@@ -7,17 +7,13 @@
 
 int close(int fd)
 {
-	/* DONE */
-	    int result = syscall(__NR_close, fd);
+	int result = syscall(__NR_close, fd);
 
-    /* Check if an error occurred */
-    if (result < 0) {
-        /* Set the errno variable to the appropriate value */
+    if (result < 0) 
+	{
         errno = -result;
-        /* Return -1 to indicate an error */
         return -1;
     }
 
-    /* Return 0 to indicate success */
     return 0;
 }

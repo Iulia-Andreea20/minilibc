@@ -7,8 +7,8 @@
 extern "C" {
 #endif
 
-/* DONE */
 int puts(const char *s);
+
 #ifdef __cplusplus
 }
 #endif
