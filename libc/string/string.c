@@ -1,265 +1,318 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 #include <string.h>
-//---------------------------------------------------
-//GOOD CODE
-// char *strcpy(char *destination, const char *source)
-// {
-// 	char *ptr = destination;
-//     while (*source != '\0')
-//     {
-//         *destination = *source;
-//         destination++;
-//         source++;
-//     }
-//     *destination = '\0';
-//     return ptr;
 
-// }
-//---------------------------------------------------
+
 char *strcpy(char *destination, const char *source)
 {
     char *tmp = destination;
 
     while ((*destination++ = *source++) != '\0')
+    {
         ;
+    }
 
     return tmp;
 }
 
-// char *strcpy(char *dest, const char *src)
-// {
-//     char *ret = dest;
-
-//     while ((*dest++ = *src++) != '\0')
-//         ;
-
-//     return ret;
-// }
 
 char *strncpy(char *destination, const char *source, size_t len)
 {
+    char *tmp = destination;
 
-    char *ptr = destination;
-    size_t i;
-    for (i = 0; i < len && *source != '\0'; i++)
+    while (len)
     {
-        *destination = *source;
-        destination++;
-        source++;
+        if ((*tmp = *source) != 0)
+        {
+            source++;
+        }
+        tmp++;
+        len--;
     }
-    for (; i < len; i++)
-    {
-        *destination = '\0';
-        destination++;
-    }
-    return ptr;
+
+    return destination;
 }
+
 
 char *strcat(char *destination, const char *source)
 {
-	char *ptr = destination;
-	while (*destination != '\0')
-	{
-		destination++;
-	}
-	while (*source != '\0')
-	{
-		*destination = *source;
-		destination++;
-		source++;
-	}
-	*destination = '\0';
-	return ptr;
+    char *tmp = destination;
 
-	return destination;
+    while (*destination)
+    {
+        destination++;
+    }
+
+    while ((*destination++ = *source++) != '\0')
+    {
+        ;
+    }
+
+    return tmp;
 }
+
 
 char *strncat(char *destination, const char *source, size_t len)
 {
-	char *ptr = destination;
-    while (*destination != '\0')
+    char *tmp = destination;
+
+    if (len)
     {
-        destination++;
+        while (*destination)
+        {
+            destination++;
+        }
+
+        while ((*destination++ = *source++) != 0)
+        {
+            if (--len == 0)
+            {
+                *destination = '\0';
+                break;
+            }
+        }
     }
 
-    size_t i;
-    for (i = 0; i < len && *source != '\0'; i++)
-    {
-        *destination = *source;
-        destination++;
-        source++;
-    }
-    *destination = '\0';
-    return ptr;
+    return tmp;
 }
+
 
 int strcmp(const char *str1, const char *str2)
 {
-	while (*str1 != '\0' && *str2 != '\0')
+    unsigned char c1, c2;
+
+    while (1)
     {
-        if (*str1 != *str2)
+        c1 = *str1++;
+        c2 = *str2++;
+
+        if (c1 != c2)
+        {
+            return c1 < c2 ? -1 : 1;
+        }
+
+        if (!c1)
         {
             break;
         }
-        str1++;
-        str2++;
     }
-    return *str1 - *str2;
+
+    return 0;
 }
 
 int strncmp(const char *str1, const char *str2, size_t len)
 {
-	size_t i;
-    for (i = 0; i < len && *str1 != '\0' && *str2 != '\0'; i++)
+    unsigned char c1, c2;
+
+    while (len)
     {
-        if (*str1 != *str2)
+        c1 = *str1++;
+        c2 = *str2++;
+
+        if (c1 != c2)
+        {
+            return c1 < c2 ? -1 : 1;
+        }
+
+        if (!c1)
         {
             break;
         }
-        str1++;
-        str2++;
-    }
-    if (i == len)
-    {
-        return 0;
-    }
-    else
-    {
-        return *str1 - *str2;
-    }
-}
 
-size_t strlen(const char *str)
-{
-	size_t i = 0;
-
-	 size_t len = 0;
-    while (*str != '\0')
-    {
-        len++;
-        str++;
-    }
-    return len;
-}
-
-char *strchr(const char *str, int c)
-{
-	while (*str != '\0')
-    {
-        if (*str == c)
-        {
-            return (char *) str;
-        }
-        str++;
-    }
-    if (c == '\0')
-    {
-        return (char *) str;
-    }
-}
-
-char *strrchr(const char *str, int c)
-{
-	const char *last = NULL;
-    while (*str != '\0')
-    {
-        if (*str == c)
-        {
-            last = str;
-        }
-        str++;
-    }
-    if (last != NULL)
-    {
-        return (char *) last;
-    }
-    if (c == '\0')
-    {
-        return (char *) str;
-    }
-}
-
-char *strstr(const char *haystack, const char *needle)
-{
-	size_t needle_len = strlen(needle);
-    if (!needle_len) 
-    {
-        return (char*) haystack;
-    }
-    for (; (haystack = strchr(haystack, *needle)) != NULL; haystack++)
-    {
-        if (!strncmp(haystack, needle, needle_len)) 
-        {
-            return (char*) haystack;
-        }
-            
-        return NULL;
+        len--;
     }
 
-}
-
-char *strrstr(const char *haystack, const char *needle)
-{
-	size_t haystack_len = strlen(haystack);
-    size_t needle_len = strlen(needle);
-    if (!needle_len) return (char*) haystack + haystack_len;
-    if (needle_len > haystack_len) return NULL;
-    const char *end = haystack + haystack_len - needle_len;
-    for (; end >= haystack; end--)
-        if (!strncmp(end, needle, needle_len)) return (char*) end;
-    return NULL;
-}
-
-void *memcpy(void *destination, const void *source, size_t num)
-{
-	/* DONE */
-	char *dst = (char*) destination;
-    const char *src = (const char*) source;
-    while (num--) *dst++ = *src++;
-    return destination;
-}
-
-void *memmove(void *destination, const void *source, size_t num)
-{
-	char *dst = (char *)destination;
-    const char *src = (const char *)source;
-    
-    if (src < dst) {
-        for (size_t i = num; i > 0; i--) {
-            dst[i - 1] = src[i - 1];
-        }
-    } else {
-        for (size_t i = 0; i < num; i++) {
-            dst[i] = src[i];
-        }
-    }
-    
-    return destination;
-}
-
-int memcmp(const void *ptr1, const void *ptr2, size_t num)
-{
-	const unsigned char *p1 = (const unsigned char *)ptr1;
-    const unsigned char *p2 = (const unsigned char *)ptr2;
-    
-    for (size_t i = 0; i < num; i++) {
-        if (p1[i] != p2[i]) {
-            return p1[i] - p2[i];
-        }
-    }
-    
     return 0;
 }
 
+
+size_t strlen(const char *str)
+{
+    const char *sc;
+
+    for (sc = str; *sc != '\0'; ++sc)
+    {
+        ;
+    }
+
+    return sc - str;
+}
+
+
+char *strchr(const char *str, int c)
+{
+    for (; *str != (char)c; ++str)
+    {
+        if (*str == '\0')
+        {
+            return NULL;
+        }
+    }
+
+    return (char *)str;
+}
+
+
+char *strrchr(const char *str, int c)
+{
+    const char *last = NULL;
+
+    do {
+        if (*str == (char)c)
+        {
+            last = str;
+        }
+    } while (*str++);
+
+    return (char *)last;
+}
+
+
+char *strstr(const char *haystack, const char *needle)
+{
+	size_t l1, l2;
+
+	l2 = strlen(needle);
+	if (!l2) {
+		return (char *)haystack;
+	}
+
+	l1 = strlen(haystack);
+
+	while (l1 >= l2) 
+    {
+		l1--;
+
+		if (!memcmp(haystack, needle, l2)) 
+        {
+			return (char *)haystack;
+		}
+
+		haystack++;
+	}
+
+	return NULL;
+}
+
+
+char* strrstr(const char* haystack, const char* needle)
+{
+    char* result = NULL;
+
+    if (needle[0] == '\0') 
+    {
+        return (char*) haystack + strlen(haystack);
+    }
+
+    while (1) 
+    {
+        char* p = strstr(haystack, needle);
+        if (!p) 
+        {
+            return result;
+        }
+
+        result = p;
+        haystack = p + 1;
+    }
+}
+
+
+void *memcpy(void *destination, const void *source, size_t num)
+{
+	char *tmp = destination;
+	const char *s = source;
+
+	while (num--)
+    {
+        *tmp++ = *s++;
+    }
+		
+	return destination;
+}
+
+
+void *memmove(void *destination, const void *source, size_t num)
+{
+	char *tmp;
+	const char *s;
+
+	if (destination<= source) 
+    {
+        tmp = destination;
+		s = source;
+		while (num--)
+        {
+            *tmp++ = *s++;
+        }
+	} 
+    else 
+    {
+		tmp = destination;
+		tmp += num;
+		s = source;
+		s += num;
+
+		while (num--)
+        {
+            *--tmp = *--s;
+        }
+			
+	}
+	return destination;
+}
+
+
+int memcmp(const void *ptr1, const void *ptr2, size_t num)
+{
+	const unsigned char *su1, *su2;
+	int res = 0;
+
+    #ifdef CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS
+
+        if (num >= sizeof(unsigned long)) 
+        {
+            const unsigned long *u1 = ptr1;
+            const unsigned long *u2 = ptr2;
+
+            do {
+                if (get_unaligned(u1) != get_unaligned(u2))
+                {
+                    break;
+                }
+                u1++;
+                u2++;
+                num -= sizeof(unsigned long);
+
+            } while (num >= sizeof(unsigned long));
+
+            ptr1 = u1;
+            ptr2 = u2;
+        }
+
+    #endif
+
+	for (su1 = ptr1, su2 = ptr2; 0 < num; ++su1, ++su2, num--)
+    {
+        if ((res = *su1 - *su2) != 0)
+        {
+            break;
+        }
+
+    }
+
+	return res;
+}
+
+
 void *memset(void *source, int value, size_t num)
 {
-	unsigned char *p = (unsigned char *)source;
-    unsigned char val = (unsigned char)value;
-    
-    for (size_t i = 0; i < num; i++) {
-        p[i] = val;
+	char *xs = source;
+
+	while (num--)
+    {
+        *xs++ = value;
     }
-    
-    return source;
+		
+	return source;
 }
