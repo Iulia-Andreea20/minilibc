@@ -1,7 +1,6 @@
-#include "../include/internal/io.h"
-#include"../include/stdio.h"
+#include <internal/io.h>
+#include <stdio.h>
 
-#define STDOUT_FILENO 1
 int puts(const char* str) {
     int count = 0;
     while (*str != '\0') {

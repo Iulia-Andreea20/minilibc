@@ -6,7 +6,7 @@
 
 int ftruncate(int fd, off_t length)
 {
-	/* DONE */
+
 	int result = syscall(__NR_ftruncate, fd, length);
 
     if (result < 0) {

@@ -4,7 +4,6 @@
 #include <internal/syscall.h>
 #include <stdarg.h>
 #include <errno.h>
-#include <internal/arch/x86_64/syscall_list.h>
 
 int open(const char *filename, int flags, ...)
 {

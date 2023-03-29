@@ -42,12 +42,48 @@ struct statx {
 
 int fstatat_statx(int fd, const char *restrict path, struct stat *restrict st, int flag)
 {
-	/* TODO: Implement fstatat_statx(). Use statx and makedev above. */
-	return -1;
+    int res;
+
+    if (fd == AT_FDCWD) 
+	{
+        res = stat(path, st);
+    } 
+	else 
+	{
+        int oldfd = open(AT_FDCWD, ".", O_RDONLY);
+
+        if (oldfd < 0) 
+		{
+            return -1;
+        }
+
+        if (fstatat(oldfd, path, st, flag) < 0) 
+		{
+            res = -1;
+        } 
+		else 
+		{
+            res = 0;
+        }
+
+        close(oldfd);
+    }
+
+    return res;
 }
+
 
 int fstatat(int fd, const char *restrict path, struct stat *restrict st, int flag)
 {
-	/* TODO: Implement fstatat(). Use fstatat_statx(). */
-	return -1;
+	int res;
+
+    if (fd == AT_FDCWD) 
+	{
+        res = fstatat_statx(AT_FDCWD, path, st, flag);
+    } else 
+	{
+        res = fstatat_statx(fd, path, st, flag);
+    }
+
+    return res;
 }

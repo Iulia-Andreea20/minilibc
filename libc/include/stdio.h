@@ -2,6 +2,7 @@
 
 #ifndef __STDIO_H__
 #define __STDIO_H__	1
+#define STDOUT_FILENO 1
 
 #ifdef __cplusplus
 extern "C" {

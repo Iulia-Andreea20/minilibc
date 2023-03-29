@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <internal/syscall.h>
 #include <errno.h>
-#include <internal/arch/x86_64/syscall_list.h>
 
 off_t lseek(int fd, off_t offset, int whence)
 {

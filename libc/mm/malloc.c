@@ -34,6 +34,7 @@ void *malloc(size_t size)
 	return ptr;
 }
 
+
 void *calloc(size_t nmemb, size_t size)
 {
 
@@ -49,25 +50,26 @@ void *calloc(size_t nmemb, size_t size)
 			memset(ptr, 0, total_size);
 		}
 
-		return ptr;
+		return (void*)ptr;
 	}
 }
 
-void free(void *ptr)
+
+void free(void *ptr) 
 {
-	
+    struct mem_list *mem = mem_list_find(ptr);
+
 	if (ptr == NULL) 
 	{
 		return;
 	}
-	if (mem_list_del(ptr) != 0) 
-	{
-    	errno = EINVAL;
-    	return;
-	}
+    size_t size = mem->len;
 
-	munmap(ptr, mem_list_find(ptr)->len);
+    munmap(ptr, size);
+
+    mem_list_del(ptr); 
 }
+
 
 void *realloc(void *ptr, size_t size)
 {
@@ -105,6 +107,7 @@ void *realloc(void *ptr, size_t size)
 
 	return new_ptr;
 }
+
 
 void *reallocarray(void *ptr, size_t nmemb, size_t size)
 {
