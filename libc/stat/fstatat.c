@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <errno.h>
 
+#define AT_FDCWD -100
 #define makedev(x, y) ( \
 		(((x)&0xfffff000ULL) << 32) | \
 	(((x)&0x00000fffULL) << 8) | \
@@ -50,7 +51,8 @@ int fstatat_statx(int fd, const char *restrict path, struct stat *restrict st, i
     } 
 	else 
 	{
-        int oldfd = open(AT_FDCWD, ".", O_RDONLY);
+
+		int oldfd = open((void*)AT_FDCWD, O_RDONLY);
 
         if (oldfd < 0) 
 		{

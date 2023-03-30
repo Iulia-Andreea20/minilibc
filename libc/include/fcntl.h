@@ -62,9 +62,7 @@ extern "C" {
 #define F_GETFD		1	/* Get file descriptor flags.  */
 #define F_SETFD		2	/* Set file descriptor flags.  */
 #define F_GETFL		3	/* Get file status flags.  */
-#define F_SETFL		4	/* Set file status flags.  */
-
-#define AT_FDCWD	-100	/* Special value used to indicate openat should use the current working directory. */
+#define F_SETFL		4	/* Set file status flags.  */	
 
 int open(const char *filename, int flags, ...);
 

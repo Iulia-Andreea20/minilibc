@@ -50,8 +50,9 @@ void *calloc(size_t nmemb, size_t size)
 			memset(ptr, 0, total_size);
 		}
 
-		return (void*)ptr;
+		return (void*) ptr;
 	}
+	return (void*) -1;
 }
 
 
